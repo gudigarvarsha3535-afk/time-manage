@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Active View DOM Verification</title>
+</head>
+<body>
+  <div id="welcomeView" class="welcome-screen" style="display: none;"></div>
+  <div id="mainAppLayout" class="app-layout" style="display: none;">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-name">HACKATHON CTRL</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-nav-target="dashboard">Dashboard</button>
+        <button class="nav-item" data-nav-target="schedule">Time Planner</button>
+        <button class="nav-item" data-nav-target="tasks">Tasks</button>
+        <button class="nav-item" data-nav-target="team">Team</button>
+        <button class="nav-item" data-nav-target="research">Research</button>
+        <button class="nav-item" data-nav-target="presentation">Presentation</button>
+        <button class="nav-item" data-nav-target="report">Report</button>
+        <button class="nav-item" data-nav-target="settings">Settings</button>
+      </nav>
+    </aside>
+
+    <header class="topbar">
+      <span class="project-title" id="headerProjectName">Project</span>
+      <span class="team-pill" id="headerTeamName">Team</span>
+      <span id="headerStatsCompleted"></span>
+      <span id="headerStatsDelayed"></span>
+      <span id="headerStatsPending"></span>
+      <button id="btnHeaderPause">Pause</button>
+      <div id="headerCountdown"></div>
+      <div id="headerCurrentHour"></div>
+    </header>
+
+    <main class="main-wrapper">
+      <div id="tabContentContainer" class="tab-content"></div>
+    </main>
+  </div>
+
+  <div id="appModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 id="appModalTitle"></h3>
+      <div id="appModalBody"></div>
+      <div id="appModalFooter"></div>
+    </div>
+  </div>
+  <div id="alertModalOverlay" class="alert-modal-overlay"></div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/notifications.js"></script>
+  <script src="../js/timer.js"></script>
+  <script src="../js/tasks.js"></script>
+  <script src="../js/team.js"></script>
+  <script src="../js/research.js"></script>
+  <script src="../js/app.js"></script>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set active session
+      const state = window.AppState;
+      state.session.isActive = true;
+      state.session.checkInTime = Date.now() - 3600000; // 1 hour ago
+      state.session.projectName = 'Test Mission Project';
+      state.session.teamName = 'Code Crusaders';
+      state.session.teamSize = 4;
+      window.Storage.saveState(state);
+
+      // Re-render
+      window.App.render();
+      console.log('ACTIVE_RENDER_COMPLETE');
+    });
+  </script>
+</body>
+</html>
