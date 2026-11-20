@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#8b5cf6" />
+  <meta name="description" content="HACKATHON MANAGER – 24H TEAM CONTROL SYSTEM. Plan Smart. Work Together. Build Something Amazing." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Hackathon24" />
+
+  <title>HACKATHON MANAGER – 24H TEAM CONTROL SYSTEM</title>
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="./assets/logo.svg" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. CHECK-IN SYSTEM / WELCOME SCREEN (SHOWN BEFORE SESSION CHECK-IN)
+       ========================================================================= -->
+  <section id="welcomeView" class="welcome-screen" style="display: none;">
+    <!-- Rendered dynamically by app.js renderWelcomeScreen() -->
+  </section>
+
+  <!-- =========================================================================
+       2. MAIN APPLICATION LAYOUT (DESKTOP SIDEBAR + TOPBAR + ACTIVE TAB VIEW)
+       ========================================================================= -->
+  <div id="mainAppLayout" class="app-layout" style="display: none;">
+
+    <!-- Desktop Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="./assets/logo.svg" alt="24H Control Logo" class="sidebar-logo" />
+        <div class="sidebar-title-box">
+          <span class="brand-name">HACKATHON CTRL</span>
+          <span class="brand-badge">24H MISSION</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-nav-target="dashboard">
+          <span class="nav-icon">⚡</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-nav-target="schedule">
+          <span class="nav-icon">📅</span>
+          <span>Time Planner</span>
+        </button>
+        <button class="nav-item" data-nav-target="tasks">
+          <span class="nav-icon">📋</span>
+          <span>Task Checklist</span>
+        </button>
+        <button class="nav-item" data-nav-target="team">
+          <span class="nav-icon">👥</span>
+          <span>Team Manager</span>
+        </button>
+        <button class="nav-item" data-nav-target="research">
+          <span class="nav-icon">🔬</span>
+          <span>Research Spec</span>
+        </button>
+        <button class="nav-item" data-nav-target="presentation">
+          <span class="nav-icon">🎤</span>
+          <span>Presentation & Q&A</span>
+        </button>
+        <button class="nav-item" data-nav-target="report">
+          <span class="nav-icon">📊</span>
+          <span>Progress Report</span>
+        </button>
+        <button class="nav-item" data-nav-target="settings">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-secondary btn-sm btn-block" id="btnPwaInstall" style="display: none;">
+          <span>📲 Install App</span>
+        </button>
+        <div class="text-muted" style="font-size: 0.7rem; text-align: center;">
+          Plan Smart. Work Together.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-project-info">
+          <span class="project-title" id="headerProjectName">Hackathon Project</span>
+          <span class="team-pill" id="headerTeamName">Team</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-stats-group">
+          <span class="stat-chip stat-chip-green" id="headerStatsCompleted">0/0 Done</span>
+          <span class="stat-chip stat-chip-red" id="headerStatsDelayed" style="display: none;">0 Delayed</span>
+          <span class="stat-chip" id="headerStatsPending">0 Pending</span>
+        </div>
+
+        <button class="btn btn-secondary btn-sm" id="btnHeaderPause">
+          <span>⏸️</span><span>Pause Hackathon</span>
+        </button>
+
+        <div class="topbar-timer-widget">
+          <div class="timer-countdown" id="headerCountdown">24:00:00</div>
+          <div class="timer-subtext" id="headerCurrentHour">Hour 1 / 24</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="main-wrapper">
+      <div id="tabContentContainer" class="tab-content">
+        <!-- Rendered dynamically by app.js renderCurrentView() -->
+      </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+      <button class="mobile-nav-btn active" data-mobile-nav="dashboard">
+        <span>⚡</span>
+        <span>Dash</span>
+      </button>
+      <button class="mobile-nav-btn" data-mobile-nav="schedule">
+        <span>📅</span>
+        <span>Plan</span>
+      </button>
+      <button class="mobile-nav-btn" data-mobile-nav="tasks">
+        <span>📋</span>
+        <span>Tasks</span>
+      </button>
+      <button class="mobile-nav-btn" data-mobile-nav="team">
+        <span>👥</span>
+        <span>Team</span>
+      </button>
+      <button class="mobile-nav-btn" data-mobile-nav="research">
+        <span>🔬</span>
+        <span>Research</span>
+      </button>
+      <button class="mobile-nav-btn" data-mobile-nav="report">
+        <span>📊</span>
+        <span>Report</span>
+      </button>
+      <button class="mobile-nav-btn" data-mobile-nav="settings">
+        <span>⚙️</span>
+        <span>Config</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- =========================================================================
+       3. GENERAL APPLICATION MODAL (ADD/EDIT TASKS, MEMBERS, PHASES, Q&A)
+       ========================================================================= -->
+  <div id="appModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="appModalTitle" class="modal-title">Modal Title</h3>
+        <button id="btnModalClose" class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <div id="appModalBody" class="modal-body">
+        <!-- Modal body content -->
+      </div>
+      <div id="appModalFooter" class="modal-footer">
+        <!-- Modal action buttons -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. RICH IN-APP ALARM & NOTIFICATION OVERLAY (SECTION 7)
+       ========================================================================= -->
+  <div id="alertModalOverlay" class="alert-modal-overlay"></div>
+
+  <!-- Scripts in dependency order -->
+  <script src="./js/storage.js"></script>
+  <script src="./js/notifications.js"></script>
+  <script src="./js/timer.js"></script>
+  <script src="./js/tasks.js"></script>
+  <script src="./js/team.js"></script>
+  <script src="./js/research.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
