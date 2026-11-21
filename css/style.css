@@ -598,15 +598,27 @@ label {
 /* ==========================================================================
    DASHBOARD VIEW (SECTION 2 & 3)
    ========================================================================== */
-.dashboard-hero-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+.dashboard-page {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-hero-grid,
+.activity-highlight-grid,
+.dashboard-secondary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
 }
 
 .dash-card {
   padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card-label {
@@ -649,10 +661,45 @@ label {
   color: var(--text-muted);
 }
 
+/* Overall Task Bar Styling (Full Width) */
+.overall-taskbar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0;
+  width: 100%;
+}
+
+.stat-pill-box {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s, background 0.2s;
+}
+.stat-pill-box:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.stat-pill-box strong {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+.stat-box-delayed {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.06);
+}
+
 .progress-container {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  width: 100%;
 }
 
 .progress-bar-track {
@@ -661,6 +708,10 @@ label {
   background-color: rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-full);
   overflow: hidden;
+}
+
+.progress-bar-lg {
+  height: 12px;
 }
 
 .progress-bar-fill {
@@ -711,26 +762,30 @@ label {
 }
 
 .dot-indicator {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
-.dot-completed { background-color: var(--status-success); }
-.dot-pending { background-color: var(--status-warning); }
-.dot-delayed { background-color: var(--status-danger); }
+.dot-completed { background-color: var(--status-success); box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+.dot-pending { background-color: var(--status-warning); box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+.dot-delayed { background-color: var(--status-danger); box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+.dot-info { background-color: var(--accent-cyan); box-shadow: 0 0 8px rgba(6, 182, 212, 0.4); }
 
-/* Activity Highlight Grid */
-.activity-highlight-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
+/* Activity Highlight Cards */
 .activity-card {
   padding: 1.4rem;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.activity-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
 }
 
 .current-activity {
@@ -1015,6 +1070,18 @@ label {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+}
+
+.quick-controls-card {
+  width: 100%;
+}
+
+.quick-action-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+  width: 100%;
 }
 
 .info-callout {
