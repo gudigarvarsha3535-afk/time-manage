@@ -466,97 +466,122 @@ class ApplicationController {
       <div class="dashboard-page">
         ${pausedBanner}
 
-        <!-- Top Overview Grid -->
-        <div class="dashboard-hero-grid">
-          <!-- Main Countdown Card -->
-          <div class="dash-card timer-card glass-panel">
-            <div class="card-label">REMAINING HACKATHON TIME</div>
-            <div class="dash-timer-display" id="dashCountdownVal">${timeData.formattedRemaining}</div>
-            <div class="dash-timer-meta">
-              <span class="meta-item">
-                <span class="meta-label">Current Phase:</span>
-                <strong id="dashCurrentHourVal">Hour ${timeData.currentHour} of ${state.session.durationHours}</strong>
-              </span>
-              <span class="meta-item">
-                <span class="meta-label">Check-In:</span>
-                <span>${timeData.checkInTimeFormatted}</span>
-              </span>
-              <span class="meta-item">
-                <span class="meta-label">Deadline:</span>
-                <span class="text-accent">${timeData.submissionTimeFormatted}</span>
-              </span>
-            </div>
-
-            <!-- Hour Progress Bar -->
-            <div class="progress-container">
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill progress-fill-purple" id="dashHourProgressBar" style="width: ${timeData.hourProgressPercent}%;"></div>
-              </div>
-              <div class="progress-info">
-                <small id="dashHourProgressTxt">${timeData.hourProgressPercent}% of Hour ${timeData.currentHour} elapsed</small>
-                <small>${Math.round(timeData.overallTimePercent)}% Total Time Passed</small>
-              </div>
-            </div>
+        <!-- 1. Main Countdown Card -->
+        <div class="dash-card timer-card glass-panel mb-3">
+          <div class="card-label">REMAINING HACKATHON TIME</div>
+          <div class="dash-timer-display" id="dashCountdownVal">${timeData.formattedRemaining}</div>
+          <div class="dash-timer-meta">
+            <span class="meta-item">
+              <span class="meta-label">Current Phase:</span>
+              <strong id="dashCurrentHourVal">Hour ${timeData.currentHour} of ${state.session.durationHours}</strong>
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">Check-In:</span>
+              <span>${timeData.checkInTimeFormatted}</span>
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">Deadline:</span>
+              <span class="text-accent">${timeData.submissionTimeFormatted}</span>
+            </span>
           </div>
 
-          <!-- Overall Progress Card -->
-          <div class="dash-card progress-card glass-panel">
-            <div class="card-label">OVERALL COMPLETION VELOCITY</div>
-            <div class="progress-radial-box">
-              <div class="progress-radial-val">${stats.progressPercent}%</div>
-              <div class="progress-radial-meta">
-                <div class="radial-stat-row">
-                  <span class="dot-indicator dot-completed"></span>
-                  <span>${stats.completed} Completed Tasks</span>
-                </div>
-                <div class="radial-stat-row">
-                  <span class="dot-indicator dot-pending"></span>
-                  <span>${stats.pending} Pending / In Progress</span>
-                </div>
-                <div class="radial-stat-row">
-                  <span class="dot-indicator dot-delayed"></span>
-                  <span class="${stats.delayed > 0 ? 'text-danger font-bold' : ''}">${stats.delayed} Delayed Tasks</span>
-                </div>
-              </div>
+          <!-- Hour Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill progress-fill-purple" id="dashHourProgressBar" style="width: ${timeData.hourProgressPercent}%;"></div>
             </div>
-
-            <div class="progress-container mt-3">
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill progress-fill-green" style="width: ${stats.progressPercent}%;"></div>
-              </div>
+            <div class="progress-info">
+              <small id="dashHourProgressTxt">${timeData.hourProgressPercent}% of Hour ${timeData.currentHour} elapsed</small>
+              <small>${Math.round(timeData.overallTimePercent)}% Total Time Passed</small>
             </div>
           </div>
         </div>
 
-        <!-- Prominent Current & Upcoming Activity -->
-        <div class="activity-highlight-grid">
-          <div class="activity-card current-activity glass-panel">
-            <div class="activity-badge badge-current">⭐ CURRENT ACTIVE FOCUS (HOUR ${timeData.currentHour})</div>
-            <h2 class="activity-title">${escapeHTML(currentSchedule.title)}</h2>
-            <p class="activity-desc">${escapeHTML(currentSchedule.description)}</p>
-            <div class="activity-footer">
-              <span class="activity-category-pill pill-${currentSchedule.category.toLowerCase()}">${currentSchedule.category}</span>
-              <button class="btn btn-secondary btn-sm" id="btnQuickAddTask">
-                <span>➕ Add Task For This Phase</span>
-              </button>
+        <!-- 2. Overall Task Bar (Placed below Remaining Time) -->
+        <div class="dash-card progress-card glass-panel mb-3">
+          <div class="section-header-compact">
+            <div>
+              <div class="card-label mb-0">OVERALL TASK COMPLETION &amp; VELOCITY</div>
+              <h3 class="section-title">Overall Task Bar</h3>
+            </div>
+            <span class="status-pill pill-active font-bold" style="font-size: 0.9rem; padding: 0.35rem 0.85rem;">
+              ${stats.progressPercent}% Completed
+            </span>
+          </div>
+
+          <div class="overall-taskbar-grid">
+            <div class="stat-pill-box">
+              <span class="dot-indicator dot-completed"></span>
+              <div>
+                <strong>${stats.completed}</strong>
+                <div class="text-muted"><small>Completed Tasks</small></div>
+              </div>
+            </div>
+            <div class="stat-pill-box">
+              <span class="dot-indicator dot-pending"></span>
+              <div>
+                <strong>${stats.pending}</strong>
+                <div class="text-muted"><small>Pending / Active</small></div>
+              </div>
+            </div>
+            <div class="stat-pill-box ${stats.delayed > 0 ? 'stat-box-delayed' : ''}">
+              <span class="dot-indicator dot-delayed"></span>
+              <div>
+                <strong class="${stats.delayed > 0 ? 'text-danger' : ''}">${stats.delayed}</strong>
+                <div class="${stats.delayed > 0 ? 'text-danger font-bold' : 'text-muted'}"><small>Delayed Tasks</small></div>
+              </div>
+            </div>
+            <div class="stat-pill-box">
+              <span class="dot-indicator dot-info" style="background-color: var(--accent-cyan);"></span>
+              <div>
+                <strong>${stats.total}</strong>
+                <div class="text-muted"><small>Total Tasks</small></div>
+              </div>
             </div>
           </div>
 
-          <div class="activity-card upcoming-activity glass-panel">
-            <div class="activity-badge badge-upcoming">⏳ UPCOMING ACTIVITY</div>
-            <h3 class="activity-title">${escapeHTML(nextSchedule.title)}</h3>
-            <p class="activity-desc">${escapeHTML(nextSchedule.description)}</p>
-            <div class="activity-footer">
-              <span class="activity-category-pill pill-${nextSchedule.category.toLowerCase()}">${nextSchedule.category}</span>
-              <button class="btn btn-ghost btn-sm" data-nav-target="schedule">
-                <span>View Full Schedule ➔</span>
-              </button>
+          <div class="progress-container mt-3">
+            <div class="progress-bar-track progress-bar-lg">
+              <div class="progress-bar-fill progress-fill-green" style="width: ${stats.progressPercent}%;"></div>
+            </div>
+            <div class="progress-info mt-1">
+              <small><strong class="text-success">${stats.completed} of ${stats.total}</strong> tasks finished</small>
+              <small><strong class="text-accent">${stats.progressPercent}%</strong> overall velocity</small>
             </div>
           </div>
         </div>
 
-        <!-- Visual 24-Hour Timeline -->
-        <div class="timeline-section glass-panel">
+        <!-- 3. Current Active Focus Card -->
+        <div class="activity-card current-activity glass-panel mb-3">
+          <div class="activity-badge badge-current">⭐ CURRENT ACTIVE FOCUS (HOUR ${timeData.currentHour})</div>
+          <h2 class="activity-title">${escapeHTML(currentSchedule.title)}</h2>
+          <p class="activity-desc">${escapeHTML(currentSchedule.description)}</p>
+          <div class="activity-footer">
+            <span class="activity-category-pill pill-${currentSchedule.category.toLowerCase()}">${currentSchedule.category}</span>
+            <button class="btn btn-secondary btn-sm" id="btnQuickAddTask">
+              <span>➕ Add Task For This Phase</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Upcoming Tasks Bar (Placed below Current Activity) -->
+        <div class="activity-card upcoming-activity glass-panel mb-3">
+          <div class="section-header-compact">
+            <div class="activity-badge badge-upcoming">⏳ UPCOMING TASKS &amp; NEXT ACTIVITY</div>
+            <span class="activity-category-pill pill-${nextSchedule.category.toLowerCase()}">${nextSchedule.category}</span>
+          </div>
+          <h3 class="activity-title">${escapeHTML(nextSchedule.title)}</h3>
+          <p class="activity-desc">${escapeHTML(nextSchedule.description)}</p>
+          <div class="activity-footer">
+            <span class="text-muted"><small>Starts automatically after current phase completes</small></span>
+            <button class="btn btn-ghost btn-sm" data-nav-target="schedule">
+              <span>View Full Schedule ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Visual 24-Hour Timeline -->
+        <div class="timeline-section glass-panel mb-3">
           <div class="section-header">
             <div>
               <h3 class="section-title">24-Hour Mission Timeline</h3>
@@ -576,43 +601,41 @@ class ApplicationController {
           </div>
         </div>
 
-        <!-- Team Status Quick View & Quick Actions -->
-        <div class="dashboard-secondary-grid">
-          <!-- Team Workload Snapshot -->
-          <div class="dash-card glass-panel">
-            <div class="section-header-compact">
-              <h4 class="card-subtitle">Team Roster & Workload</h4>
-              <button class="btn btn-ghost btn-sm" data-nav-target="team">Manage Team ➔</button>
-            </div>
-            <div class="team-snapshot-list">
-              ${this.renderTeamSnapshot(state)}
-            </div>
+        <!-- 6. Team Status Workload Card -->
+        <div class="dash-card glass-panel mb-3">
+          <div class="section-header-compact">
+            <h4 class="card-subtitle">👥 Team Roster &amp; Workload</h4>
+            <button class="btn btn-ghost btn-sm" data-nav-target="team">Manage Team ➔</button>
+          </div>
+          <div class="team-snapshot-list">
+            ${this.renderTeamSnapshot(state)}
+          </div>
+        </div>
+
+        <!-- 7. Quick Control Action Bar (Placed below Team Roster) -->
+        <div class="dash-card glass-panel quick-controls-card mb-3">
+          <div class="section-header-compact">
+            <h4 class="card-subtitle">⚡ Quick Control Action Bar</h4>
+            <small class="text-muted">Fast mission control shortcuts</small>
+          </div>
+          <div class="quick-action-buttons-grid">
+            <button class="btn btn-secondary" id="btnDashTestAlarm">
+              <span>🔔 Test Alarm Sound &amp; Modal</span>
+            </button>
+            <button class="btn btn-secondary" data-nav-target="research">
+              <span>🔬 Open Research Manager &amp; 5-Whys</span>
+            </button>
+            <button class="btn btn-secondary" data-nav-target="presentation">
+              <span>🎤 Presentation Prep Checklist</span>
+            </button>
+            <button class="btn btn-secondary" data-nav-target="report">
+              <span>📊 Generate Final Progress Report</span>
+            </button>
           </div>
 
-          <!-- Quick Action Controls -->
-          <div class="dash-card glass-panel">
-            <div class="section-header-compact">
-              <h4 class="card-subtitle">Quick Control Actions</h4>
-            </div>
-            <div class="quick-action-buttons">
-              <button class="btn btn-secondary btn-block" id="btnDashTestAlarm">
-                <span>🔔 Test Alarm Sound & Modal</span>
-              </button>
-              <button class="btn btn-secondary btn-block" data-nav-target="research">
-                <span>🔬 Open Research Manager & 5-Whys</span>
-              </button>
-              <button class="btn btn-secondary btn-block" data-nav-target="presentation">
-                <span>🎤 Presentation Prep Checklist</span>
-              </button>
-              <button class="btn btn-secondary btn-block" data-nav-target="report">
-                <span>📊 Generate Final Progress Report</span>
-              </button>
-            </div>
-
-            <!-- Background Alert Notice -->
-            <div class="info-callout mt-3">
-              <small>ℹ️ <strong>Browser Timer Note:</strong> Chrome/Firefox may throttle timers if this tab is completely closed or inactive on Android. Keep tab pinned or install as PWA for best results.</small>
-            </div>
+          <!-- Background Alert Notice -->
+          <div class="info-callout mt-3">
+            <small>ℹ️ <strong>Browser Timer Note:</strong> Chrome/Firefox/Edge may throttle timers if this tab is completely closed or inactive on Android. Keep tab pinned or install as PWA for best results.</small>
           </div>
         </div>
       </div>
